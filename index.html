@@ -67,24 +67,9 @@
             </div>
 
             <div class="popular-events">
-                <h3>Popular Festivals</h3>
-                <div class="event-grid">
-                    <div class="event-card" data-event="diwali">
-                        <span class="event-emoji">🪔</span>
-                        <span class="event-name">Diwali</span>
-                    </div>
-                    <div class="event-card" data-event="christmas">
-                        <span class="event-emoji">🎄</span>
-                        <span class="event-name">Christmas</span>
-                    </div>
-                    <div class="event-card" data-event="new-year">
-                        <span class="event-emoji">🎆</span>
-                        <span class="event-name">New Year</span>
-                    </div>
-                    <div class="event-card" data-event="gandhi-jayanti">
-                        <span class="event-emoji">🕊</span>
-                        <span class="event-name">Gandhi Jayanti</span>
-                    </div>
+                <h3>Available Festivals</h3>
+                <div class="event-grid" id="eventGrid">
+                    <!-- Events will be loaded dynamically from server -->
                 </div>
             </div>
         </main>
@@ -115,6 +100,10 @@
                 <div class="form-group">
                     <label for="eventImage">Image URL</label>
                     <input type="url" id="eventImage" placeholder="https://example.com/image.jpg">
+                </div>
+                <div class="form-group">
+                    <label for="eventDescription">Description (Optional)</label>
+                    <textarea id="eventDescription" placeholder="Brief description of the festival..."></textarea>
                 </div>
                 <button type="submit" class="submit-btn">Submit Event</button>
             </form>

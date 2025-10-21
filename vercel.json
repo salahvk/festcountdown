@@ -4,11 +4,15 @@
   "outputDirectory": "dist",
   "installCommand": "npm install",
   "framework": null,
-  "rewrites": [
-    {
-      "source": "/(diwali|christmas|new-year|gandhi-jayanti|eid|onam|ramzan|apj-birthday|apj-death-day|salah-new-birthday)",
-      "destination": "/$1.html"
+  "functions": {
+    "api/events.js": {
+      "runtime": "nodejs18.x"
     },
+    "api/event/[slug].js": {
+      "runtime": "nodejs18.x"
+    }
+  },
+  "rewrites": [
     {
       "source": "/([a-zA-Z0-9-]+)",
       "destination": "/event.html?festival=$1"

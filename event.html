@@ -3,94 +3,190 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Meta Tags -->
     <title id="pageTitle">Festival Countdown</title>
+    <meta name="description" id="pageDescription" content="Festival countdown timer">
+    <meta name="keywords" id="pageKeywords" content="festival countdown, countdown timer">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" id="ogTitle" content="Festival Countdown">
+    <meta property="og:description" id="ogDescription" content="Festival countdown timer">
+    <meta property="og:image" id="ogImage" content="">
+    <meta property="og:url" id="ogUrl" content="">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Festival Countdown">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" id="twitterTitle" content="Festival Countdown">
+    <meta name="twitter:description" id="twitterDescription" content="Festival countdown timer">
+    <meta name="twitter:image" id="twitterImage" content="">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" id="canonicalUrl" href="">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json" id="structuredData">
+    {
+        "@context": "https://schema.org",
+        "@type": "Event",
+        "name": "Festival",
+        "description": "Festival countdown",
+        "startDate": "",
+        "image": "",
+        "url": "",
+        "organizer": {
+            "@type": "Organization",
+            "name": "Festival Countdown"
+        }
+    }
+    </script>
+    
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
 </head>
 <body>
     <div class="container">
         <header class="event-header">
-            <a href="index.html" class="back-btn">← Back to Home</a>
-            <h1 id="eventTitle" class="event-title"></h1>
-            <p id="eventTagline" class="event-tagline"></p>
+            <h1 id="eventTitle" class="event-title">Loading...</h1>
+            <p id="eventTagline" class="event-tagline">Loading...</p>
         </header>
 
-        <main class="countdown-main">
-            <div class="event-image-container">
-                <img id="eventImage" src="" alt="Festival Image" class="event-image">
-            </div>
-
-            <div class="countdown-container">
-                <div id="countdown" class="countdown">
-                    <div class="time-unit">
-                        <span id="days" class="time-value">0</span>
-                        <span class="time-label">Days</span>
+        <main class="countdown-main-new">
+            <div class="countdown-container-large">
+                <div id="countdown" class="countdown-large">
+                    <div class="time-unit-large">
+                        <span id="days" class="time-value-large">0</span>
+                        <span class="time-label-large">Days</span>
                     </div>
-                    <div class="time-unit">
-                        <span id="hours" class="time-value">0</span>
-                        <span class="time-label">Hours</span>
+                    <div class="time-unit-large">
+                        <span id="hours" class="time-value-large">0</span>
+                        <span class="time-label-large">Hours</span>
                     </div>
-                    <div class="time-unit">
-                        <span id="minutes" class="time-value">0</span>
-                        <span class="time-label">Minutes</span>
+                    <div class="time-unit-large">
+                        <span id="minutes" class="time-value-large">0</span>
+                        <span class="time-label-large">Minutes</span>
                     </div>
-                    <div class="time-unit">
-                        <span id="seconds" class="time-value">0</span>
-                        <span class="time-label">Seconds</span>
+                    <div class="time-unit-large">
+                        <span id="seconds" class="time-value-large">0</span>
+                        <span class="time-label-large">Seconds</span>
                     </div>
                 </div>
 
-                <div id="celebration" class="celebration hidden">
+                <div id="celebration" class="celebration-large hidden">
                     <h2>🎉 It's Time to Celebrate! 🎉</h2>
-                    <p id="celebrationMessage"></p>
+                    <p id="celebrationMessage">Celebration time!</p>
                 </div>
-            </div>
-
-            <div class="event-info">
-                <div class="info-card">
-                    <h3>Event Details</h3>
-                    <p><strong>Date:</strong> <span id="eventDate"></span></p>
-                    <p><strong>Status:</strong> <span id="eventStatus"></span></p>
+                
+                <!-- Share Button below countdown -->
+                <div class="share-container-below">
+                    <button id="shareBtn" class="share-btn">📤 Share This Countdown</button>
+                    <div id="shareOptions" class="share-options hidden">
+                        <button onclick="shareToFacebook()" class="share-option facebook">Facebook</button>
+                        <button onclick="shareToTwitter()" class="share-option twitter">Twitter</button>
+                        <button onclick="shareToWhatsApp()" class="share-option whatsapp">WhatsApp</button>
+                        <button onclick="copyLink()" class="share-option copy">Copy Link</button>
+                    </div>
                 </div>
             </div>
         </main>
+        
+        <!-- Back button at bottom left -->
+        <div class="back-btn-bottom">
+            <a href="/" class="back-btn">← Back to Home</a>
+        </div>
     </div>
 
-    <script src="script.js"></script>
     <script>
-        // Event-specific script
-        document.addEventListener('DOMContentLoaded', function() {
-            const path = window.location.pathname;
-            const eventSlug = path.substring(1); // Remove leading slash
-            
-            // Load events from localStorage
-            const mainEvents = JSON.parse(localStorage.getItem('mainEvents') || '{}');
-            
-            if (eventSlug && mainEvents[eventSlug]) {
-                const event = mainEvents[eventSlug];
-                displayEvent(event);
-                startCountdown(event);
-            } else {
-                // Event not found
-                document.getElementById('eventTitle').textContent = 'Event Not Found';
-                document.getElementById('eventTagline').textContent = 'This festival might not exist yet.';
-                document.querySelector('.countdown-container').style.display = 'none';
+        // Get festival slug from URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const festivalSlug = urlParams.get('festival');
+        
+        if (!festivalSlug) {
+            document.body.innerHTML = '<div class="container"><h1>Error: No festival specified</h1><a href="/" class="back-btn">← Back to Home</a></div>';
+        } else {
+            // Load event data from server
+            loadEventData(festivalSlug);
+        }
+
+        async function loadEventData(slug) {
+            try {
+                const response = await fetch(`/api/event/${slug}`);
+                if (!response.ok) {
+                    throw new Error('Event not found');
+                }
+                
+                const eventData = await response.json();
+                initializeEvent(eventData);
+            } catch (error) {
+                console.error('Error loading event:', error);
+                document.body.innerHTML = `
+                    <div class="container">
+                        <h1>Event Not Found</h1>
+                        <p>The festival "${slug}" could not be found.</p>
+                        <a href="/" class="back-btn">← Back to Home</a>
+                    </div>
+                `;
             }
-        });
+        }
+
+        function initializeEvent(eventData) {
+            // Update page metadata
+            updatePageMetadata(eventData);
+            
+            // Display event
+            displayEvent(eventData);
+            
+            // Start countdown
+            startCountdown(eventData);
+            
+            // Setup share functionality
+            setupShareFunctionality(eventData);
+        }
+
+        function updatePageMetadata(event) {
+            const currentUrl = window.location.href;
+            
+            // Update title and meta tags
+            document.getElementById('pageTitle').textContent = `${event.name} Countdown - ${event.tagline}`;
+            document.getElementById('pageDescription').content = `${event.description || event.tagline}. Countdown timer showing exactly how many days, hours, minutes, and seconds until ${event.name}.`;
+            document.getElementById('pageKeywords').content = `${event.name.toLowerCase()}, ${event.name.toLowerCase()} countdown, festival countdown, ${event.name.toLowerCase()} timer, ${event.name.toLowerCase()} date`;
+            
+            // Open Graph tags
+            document.getElementById('ogTitle').content = `${event.name} Countdown - ${event.tagline}`;
+            document.getElementById('ogDescription').content = `${event.description || event.tagline}. Countdown timer showing exactly how many days, hours, minutes, and seconds until ${event.name}.`;
+            document.getElementById('ogImage').content = event.image || 'https://via.placeholder.com/400x300/4B0082/ffffff?text=' + encodeURIComponent(event.emoji + ' ' + event.name);
+            document.getElementById('ogUrl').content = currentUrl;
+            
+            // Twitter tags
+            document.getElementById('twitterTitle').content = `${event.name} Countdown`;
+            document.getElementById('twitterDescription').content = `${event.description || event.tagline}. Countdown timer showing exactly how many days, hours, minutes, and seconds until ${event.name}.`;
+            document.getElementById('twitterImage').content = event.image || 'https://via.placeholder.com/400x300/4B0082/ffffff?text=' + encodeURIComponent(event.emoji + ' ' + event.name);
+            
+            // Canonical URL
+            document.getElementById('canonicalUrl').href = currentUrl;
+            
+            // Structured data
+            const structuredData = {
+                "@context": "https://schema.org",
+                "@type": "Event",
+                "name": event.name,
+                "description": event.description || event.tagline,
+                "startDate": event.date,
+                "image": event.image || 'https://via.placeholder.com/400x300/4B0082/ffffff?text=' + encodeURIComponent(event.emoji + ' ' + event.name),
+                "url": currentUrl,
+                "organizer": {
+                    "@type": "Organization",
+                    "name": "Festival Countdown"
+                }
+            };
+            document.getElementById('structuredData').textContent = JSON.stringify(structuredData);
+        }
 
         function displayEvent(event) {
-            document.getElementById('pageTitle').textContent = event.name + ' Countdown';
             document.getElementById('eventTitle').textContent = event.emoji + ' ' + event.name;
             document.getElementById('eventTagline').textContent = event.tagline;
-            document.getElementById('eventDate').textContent = new Date(event.date).toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            });
-            
-            if (event.image) {
-                document.getElementById('eventImage').src = event.image;
-                document.getElementById('eventImage').style.display = 'block';
-            }
         }
 
         function startCountdown(event) {
@@ -105,7 +201,6 @@
                     document.getElementById('countdown').classList.add('hidden');
                     document.getElementById('celebration').classList.remove('hidden');
                     document.getElementById('celebrationMessage').textContent = event.tagline;
-                    document.getElementById('eventStatus').textContent = '🎉 Celebrating Now!';
                     return;
                 }
                 
@@ -118,12 +213,50 @@
                 document.getElementById('hours').textContent = hours;
                 document.getElementById('minutes').textContent = minutes;
                 document.getElementById('seconds').textContent = seconds;
-                
-                document.getElementById('eventStatus').textContent = '⏰ Countdown Active';
             }
             
             updateCountdown();
             setInterval(updateCountdown, 1000);
+        }
+
+        function setupShareFunctionality(event) {
+            const shareBtn = document.getElementById('shareBtn');
+            const shareOptions = document.getElementById('shareOptions');
+            
+            shareBtn.addEventListener('click', function() {
+                shareOptions.classList.toggle('hidden');
+            });
+            
+            // Close share options when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!shareBtn.contains(e.target) && !shareOptions.contains(e.target)) {
+                    shareOptions.classList.add('hidden');
+                }
+            });
+        }
+
+        function shareToFacebook() {
+            const url = encodeURIComponent(window.location.href);
+            const text = encodeURIComponent(`Check out this ${document.getElementById('eventTitle').textContent} countdown!`);
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${text}`, '_blank');
+        }
+
+        function shareToTwitter() {
+            const url = encodeURIComponent(window.location.href);
+            const text = encodeURIComponent(`Check out this ${document.getElementById('eventTitle').textContent} countdown! ${document.getElementById('eventTagline').textContent}`);
+            window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, '_blank');
+        }
+
+        function shareToWhatsApp() {
+            const url = encodeURIComponent(window.location.href);
+            const text = encodeURIComponent(`Check out this ${document.getElementById('eventTitle').textContent} countdown! ${document.getElementById('eventTagline').textContent}`);
+            window.open(`https://wa.me/?text=${text} ${url}`, '_blank');
+        }
+
+        function copyLink() {
+            navigator.clipboard.writeText(window.location.href).then(function() {
+                alert('Link copied to clipboard!');
+            });
         }
     </script>
 </body>

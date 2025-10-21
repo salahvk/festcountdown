@@ -50,6 +50,9 @@
     <script src="script.js"></script>
     <script>
         // Admin-specific script
+        let pendingEvents = [];
+        let approvedEvents = [];
+        
         document.addEventListener('DOMContentLoaded', function() {
             const ADMIN_PASSWORD = 'admin123'; // Simple password for demo
             
@@ -72,15 +75,28 @@
             });
         });
 
-        function loadAdminData() {
-            const pendingEvents = JSON.parse(localStorage.getItem('pendingEvents') || '[]');
-            const approvedEvents = JSON.parse(localStorage.getItem('approvedEvents') || '[]');
-            
-            document.getElementById('pendingCount').textContent = pendingEvents.length;
-            document.getElementById('approvedCount').textContent = approvedEvents.length;
-            
-            displayPendingEvents(pendingEvents);
-            displayApprovedEvents(approvedEvents);
+        async function loadAdminData() {
+            try {
+                const response = await fetch('/api/events');
+                if (!response.ok) {
+                    throw new Error('Failed to load events');
+                }
+                
+                const data = await response.json();
+                
+                // Store events in global variables
+                pendingEvents = data.pending;
+                approvedEvents = data.approved;
+                
+                document.getElementById('pendingCount').textContent = data.pending.length;
+                document.getElementById('approvedCount').textContent = data.approved.length;
+                
+                displayPendingEvents(data.pending);
+                displayApprovedEvents(data.approved);
+            } catch (error) {
+                console.error('Error loading admin data:', error);
+                alert('Failed to load events data');
+            }
         }
 
         function displayPendingEvents(events) {
@@ -102,6 +118,7 @@
                         <p><strong>Tagline:</strong> ${event.tagline}</p>
                         <p><strong>Image:</strong> ${event.image || 'No image provided'}</p>
                         <p><strong>Submitted:</strong> ${new Date(event.submittedAt).toLocaleString()}</p>
+                        <p><strong>Description:</strong> ${event.description || 'No description provided'}</p>
                     </div>
                     <div class="event-actions">
                         <button onclick="approveEvent(${index})" class="approve-btn">✅ Approve</button>
@@ -130,6 +147,7 @@
                         <p><strong>Date:</strong> ${new Date(event.date).toLocaleDateString()}</p>
                         <p><strong>Tagline:</strong> ${event.tagline}</p>
                         <p><strong>Approved:</strong> ${new Date(event.approvedAt).toLocaleString()}</p>
+                        <p><strong>Description:</strong> ${event.description || 'No description provided'}</p>
                     </div>
                     <div class="event-actions">
                         <button onclick="removeApprovedEvent(${index})" class="remove-btn">🗑️ Remove</button>
@@ -139,68 +157,84 @@
             });
         }
 
-        function approveEvent(index) {
-            const pendingEvents = JSON.parse(localStorage.getItem('pendingEvents') || '[]');
-            const approvedEvents = JSON.parse(localStorage.getItem('approvedEvents') || '[]');
-            
-            const event = pendingEvents[index];
-            event.approvedAt = new Date().toISOString();
-            
-            approvedEvents.push(event);
-            pendingEvents.splice(index, 1);
-            
-            localStorage.setItem('pendingEvents', JSON.stringify(pendingEvents));
-            localStorage.setItem('approvedEvents', JSON.stringify(approvedEvents));
-            
-            // Update main events object
-            updateMainEvents();
-            
-            loadAdminData();
-            alert('Event approved successfully!');
-        }
-
-        function rejectEvent(index) {
-            const pendingEvents = JSON.parse(localStorage.getItem('pendingEvents') || '[]');
-            pendingEvents.splice(index, 1);
-            
-            localStorage.setItem('pendingEvents', JSON.stringify(pendingEvents));
-            loadAdminData();
-            alert('Event rejected and removed.');
-        }
-
-        function removeApprovedEvent(index) {
-            if (confirm('Are you sure you want to remove this approved event?')) {
-                const approvedEvents = JSON.parse(localStorage.getItem('approvedEvents') || '[]');
-                approvedEvents.splice(index, 1);
+        async function approveEvent(index) {
+            try {
+                const response = await fetch('/api/events', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        id: pendingEvents[index].id,
+                        action: 'approve'
+                    })
+                });
                 
-                localStorage.setItem('approvedEvents', JSON.stringify(approvedEvents));
-                
-                // Update main events object
-                updateMainEvents();
+                if (!response.ok) {
+                    throw new Error('Failed to approve event');
+                }
                 
                 loadAdminData();
-                alert('Event removed successfully!');
+                alert('Event approved successfully!');
+            } catch (error) {
+                console.error('Error approving event:', error);
+                alert('Failed to approve event');
             }
         }
 
-        function updateMainEvents() {
-            const approvedEvents = JSON.parse(localStorage.getItem('approvedEvents') || '[]');
-            const mainEvents = JSON.parse(localStorage.getItem('mainEvents') || '{}');
-            
-            // Add approved events to main events
-            approvedEvents.forEach(event => {
-                const slug = event.name.toLowerCase().replace(/\s+/g, '-');
-                mainEvents[slug] = {
-                    name: event.name,
-                    date: event.date,
-                    emoji: event.emoji,
-                    tagline: event.tagline,
-                    image: event.image
-                };
-            });
-            
-            localStorage.setItem('mainEvents', JSON.stringify(mainEvents));
+        async function rejectEvent(index) {
+            try {
+                const response = await fetch('/api/events', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        id: pendingEvents[index].id,
+                        action: 'reject'
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to reject event');
+                }
+                
+                loadAdminData();
+                alert('Event rejected and removed.');
+            } catch (error) {
+                console.error('Error rejecting event:', error);
+                alert('Failed to reject event');
+            }
         }
+
+        async function removeApprovedEvent(index) {
+            if (confirm('Are you sure you want to remove this approved event?')) {
+                try {
+                    const response = await fetch('/api/events', {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            id: approvedEvents[index].id,
+                            action: 'remove'
+                        })
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error('Failed to remove event');
+                    }
+                    
+                    loadAdminData();
+                    alert('Event removed successfully!');
+                } catch (error) {
+                    console.error('Error removing event:', error);
+                    alert('Failed to remove event');
+                }
+            }
+        }
+
+        // Remove the updateMainEvents function as it's no longer needed
     </script>
 </body>
 </html>

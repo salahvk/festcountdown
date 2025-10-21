@@ -1,78 +1,5 @@
-// Main events data
-const events = {
-    diwali: { 
-        name: "Diwali", 
-        date: "2025-10-20", 
-        emoji: "🪔", 
-        tagline: "Festival of Lights begins soon ✨", 
-        image: "https://via.placeholder.com/400x300/ff6b6b/ffffff?text=🪔+Diwali+Festival",
-        description: "Diwali, the Festival of Lights, is one of the most important Hindu festivals celebrated across India and the world. It symbolizes the victory of light over darkness and good over evil."
-    },
-    "gandhi-jayanti": { 
-        name: "Gandhi Jayanti", 
-        date: "2025-10-02", 
-        emoji: "🕊", 
-        tagline: "Honoring the Mahatma 🙏", 
-        image: "https://via.placeholder.com/400x300/FFD700/ffffff?text=🕊+Gandhi+Jayanti",
-        description: "Gandhi Jayanti commemorates the birth anniversary of Mahatma Gandhi, the Father of the Nation, who led India to independence through non-violent resistance."
-    },
-    christmas: { 
-        name: "Christmas", 
-        date: "2025-12-25", 
-        emoji: "🎄", 
-        tagline: "Merry Christmas in advance 🎅", 
-        image: "https://via.placeholder.com/400x300/228B22/ffffff?text=🎄+Christmas+Festival",
-        description: "Christmas is a Christian holiday celebrating the birth of Jesus Christ, observed by billions of people worldwide with joy, gifts, and festive celebrations."
-    },
-    "new-year": { 
-        name: "New Year 2026", 
-        date: "2026-01-01", 
-        emoji: "🎆", 
-        tagline: "A new beginning awaits 🌟", 
-        image: "https://via.placeholder.com/400x300/4B0082/ffffff?text=🎆+New+Year+Festival",
-        description: "New Year's Day marks the beginning of a new calendar year, celebrated worldwide with fireworks, parties, and resolutions for the year ahead."
-    },
-    eid: {
-        name: "Eid al-Fitr",
-        date: "2025-03-30",
-        emoji: "🌙",
-        tagline: "Celebrating the end of Ramadan 🌟",
-        image: "https://via.placeholder.com/400x300/228B22/ffffff?text=🌙+Eid+al-Fitr",
-        description: "Eid al-Fitr is a Muslim holiday that marks the end of Ramadan, the Islamic holy month of fasting. It's a time of joy, gratitude, and celebration with family and friends."
-    },
-    onam: {
-        name: "Onam",
-        date: "2025-09-12",
-        emoji: "🎭",
-        tagline: "Kerala's harvest festival 🍃",
-        image: "https://via.placeholder.com/400x300/FFD700/ffffff?text=🎭+Onam+Festival",
-        description: "Onam is a major annual festival celebrated in Kerala, India. It commemorates the homecoming of the legendary King Mahabali and marks the harvest season."
-    },
-    ramzan: {
-        name: "Ramadan",
-        date: "2025-02-28",
-        emoji: "☪️",
-        tagline: "Holy month of fasting begins 🌙",
-        image: "https://via.placeholder.com/400x300/4B0082/ffffff?text=☪️+Ramadan",
-        description: "Ramadan is the ninth month of the Islamic calendar, observed by Muslims worldwide as a month of fasting, prayer, reflection, and community."
-    },
-    "apj-birthday": {
-        name: "APJ Abdul Kalam Birthday",
-        date: "2025-10-15",
-        emoji: "🚀",
-        tagline: "Remembering the People's President 🎓",
-        image: "https://via.placeholder.com/400x300/FF6B6B/ffffff?text=🚀+APJ+Kalam+Birthday",
-        description: "Dr. APJ Abdul Kalam, known as the 'People's President' and 'Missile Man of India', was born on this day. A scientist, teacher, and former President of India."
-    },
-    "apj-death-day": {
-        name: "APJ Abdul Kalam Death Anniversary",
-        date: "2025-07-27",
-        emoji: "🕊️",
-        tagline: "Honoring the Missile Man's legacy 🚀",
-        image: "https://via.placeholder.com/400x300/4B0082/ffffff?text=🕊️+APJ+Kalam+Memorial",
-        description: "Remembering Dr. APJ Abdul Kalam on his death anniversary. A visionary leader who inspired millions with his dedication to science, education, and nation-building."
-    }
-};
+// Main events data - now loaded from server
+let events = {};
 
 // Function to get the correct date for an event (current year or next year if passed)
 function getEventDate(event) {
@@ -106,9 +33,9 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeApp();
 });
 
-function initializeApp() {
-    // Load approved events from localStorage and merge with main events
-    loadApprovedEvents();
+async function initializeApp() {
+    // Load events from server
+    await loadEventsFromServer();
     
     // Set up event listeners
     setupEventListeners();
@@ -357,7 +284,7 @@ function handleEventSubmission(e) {
         emoji: document.getElementById('eventEmoji').value.trim() || '🎉',
         tagline: document.getElementById('eventTagline').value.trim(),
         image: document.getElementById('eventImage').value.trim(),
-        submittedAt: new Date().toISOString()
+        description: document.getElementById('eventDescription')?.value.trim() || ''
     };
     
     // Validate form data
@@ -376,21 +303,38 @@ function handleEventSubmission(e) {
         return;
     }
     
-    // Save to pending events
-    savePendingEvent(formData);
-    
-    // Show success message
-    showSuccessMessage();
-    
-    // Reset form and close modal
-    document.getElementById('eventForm').reset();
-    document.getElementById('eventModal').style.display = 'none';
+    // Submit to server
+    submitEventToServer(formData);
 }
 
-function savePendingEvent(eventData) {
-    const pendingEvents = JSON.parse(localStorage.getItem('pendingEvents') || '[]');
-    pendingEvents.push(eventData);
-    localStorage.setItem('pendingEvents', JSON.stringify(pendingEvents));
+async function submitEventToServer(eventData) {
+    try {
+        const response = await fetch('/api/events', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(eventData)
+        });
+        
+        if (!response.ok) {
+            throw new Error('Failed to submit event');
+        }
+        
+        const result = await response.json();
+        console.log('Event submitted successfully:', result);
+        
+        // Show success message
+        showSuccessMessage();
+        
+        // Reset form and close modal
+        document.getElementById('eventForm').reset();
+        document.getElementById('eventModal').style.display = 'none';
+        
+    } catch (error) {
+        console.error('Error submitting event:', error);
+        alert('Failed to submit event. Please try again.');
+    }
 }
 
 function showSuccessMessage() {
@@ -403,45 +347,49 @@ function showSuccessMessage() {
     }
 }
 
-function loadApprovedEvents() {
-    const approvedEvents = JSON.parse(localStorage.getItem('approvedEvents') || '[]');
-    
-    // Merge approved events with main events
-    approvedEvents.forEach(event => {
-        const slug = event.name.toLowerCase().replace(/\s+/g, '-');
-        events[slug] = {
-            name: event.name,
-            date: event.date,
-            emoji: event.emoji,
-            tagline: event.tagline,
-            image: event.image
-        };
-    });
-    
-    // Save merged events to localStorage for event pages
-    localStorage.setItem('mainEvents', JSON.stringify(events));
-    
-    // Update the popular events display to include user-created events
-    updatePopularEventsDisplay();
+async function loadEventsFromServer() {
+    try {
+        const response = await fetch('/api/events');
+        if (!response.ok) {
+            throw new Error('Failed to load events');
+        }
+        
+        const data = await response.json();
+        
+        // Convert approved events to the events object format
+        events = {};
+        data.approved.forEach(event => {
+            const slug = event.name.toLowerCase().replace(/\s+/g, '-');
+            events[slug] = {
+                name: event.name,
+                date: event.date,
+                emoji: event.emoji,
+                tagline: event.tagline,
+                image: event.image,
+                description: event.description
+            };
+        });
+        
+        console.log('Events loaded from server:', events);
+    } catch (error) {
+        console.error('Error loading events from server:', error);
+        // Fallback to empty events object
+        events = {};
+    }
 }
 
 function updatePopularEventsDisplay() {
-    const eventGrid = document.querySelector('.event-grid');
+    const eventGrid = document.getElementById('eventGrid');
     if (!eventGrid) return;
     
-    // Clear existing cards except the main ones
-    const mainEventCards = eventGrid.querySelectorAll('.event-card[data-event]');
-    const approvedEvents = JSON.parse(localStorage.getItem('approvedEvents') || '[]');
+    // Clear existing event cards
+    eventGrid.innerHTML = '';
     
-    // Remove any existing user-created event cards
-    const userEventCards = eventGrid.querySelectorAll('.event-card.user-created');
-    userEventCards.forEach(card => card.remove());
-    
-    // Add user-created event cards
-    approvedEvents.forEach(event => {
-        const slug = event.name.toLowerCase().replace(/\s+/g, '-');
+    // Add server-loaded event cards
+    Object.keys(events).forEach(slug => {
+        const event = events[slug];
         const card = document.createElement('div');
-        card.className = 'event-card user-created';
+        card.className = 'event-card';
         card.dataset.event = slug;
         
         card.innerHTML = `
@@ -456,6 +404,11 @@ function updatePopularEventsDisplay() {
         
         eventGrid.appendChild(card);
     });
+    
+    // Show message if no events
+    if (Object.keys(events).length === 0) {
+        eventGrid.innerHTML = '<p class="no-events">No festivals available yet. Be the first to add one!</p>';
+    }
 }
 
 // Utility function to create slug from text
