@@ -30,6 +30,7 @@ function getEventWithCorrectDate(eventSlug) {
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded, initializing app...');
     initializeApp();
 });
 
@@ -42,6 +43,9 @@ async function initializeApp() {
     
     // Initialize popular events display
     initializePopularEvents();
+    
+    // Update the display with loaded events
+    updatePopularEventsDisplay();
 }
 
 function setupEventListeners() {
@@ -349,6 +353,7 @@ function showSuccessMessage() {
 
 async function loadEventsFromServer() {
     try {
+        console.log('Loading events from server...');
         const response = await fetch('/api/events');
         
         if (!response.ok) {
@@ -356,6 +361,7 @@ async function loadEventsFromServer() {
         }
         
         const data = await response.json();
+        console.log('Server data received:', data);
         
         // Convert approved events to the events object format
         events = {};
@@ -364,10 +370,10 @@ async function loadEventsFromServer() {
             events[slug] = {
                 name: event.name,
                 date: event.date,
-                emoji: event.emoji,
-                tagline: event.tagline,
-                image: event.image,
-                description: event.description
+                emoji: event.emoji || '🎉',
+                tagline: event.tagline || 'A special celebration!',
+                image: event.image || 'https://via.placeholder.com/400x300/4B0082/ffffff?text=' + encodeURIComponent(event.emoji || '🎉'),
+                description: event.description || event.tagline || 'A special celebration!'
             };
         });
         
@@ -381,7 +387,12 @@ async function loadEventsFromServer() {
 
 function updatePopularEventsDisplay() {
     const eventGrid = document.getElementById('eventGrid');
-    if (!eventGrid) return;
+    if (!eventGrid) {
+        console.error('Event grid not found!');
+        return;
+    }
+    
+    console.log('Updating events display. Current events:', events);
     
     // Clear existing event cards
     eventGrid.innerHTML = '';
@@ -389,6 +400,8 @@ function updatePopularEventsDisplay() {
     // Add server-loaded event cards
     Object.keys(events).forEach(slug => {
         const event = events[slug];
+        console.log('Adding event:', event);
+        
         const card = document.createElement('div');
         card.className = 'event-card';
         card.dataset.event = slug;
@@ -409,6 +422,13 @@ function updatePopularEventsDisplay() {
     // Show message if no events
     if (Object.keys(events).length === 0) {
         eventGrid.innerHTML = '<p class="no-events">No festivals available yet. Be the first to add one!</p>';
+    } else {
+        // Add a debug message
+        const debugMsg = document.createElement('p');
+        debugMsg.textContent = `Found ${Object.keys(events).length} events`;
+        debugMsg.style.color = 'green';
+        debugMsg.style.fontSize = '12px';
+        eventGrid.appendChild(debugMsg);
     }
 }
 

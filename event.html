@@ -99,11 +99,14 @@
     </div>
 
     <script>
-        // Get festival slug from URL parameters
-        const urlParams = new URLSearchParams(window.location.search);
-        const festivalSlug = urlParams.get('festival');
+        // Get festival slug from URL path
+        const pathParts = window.location.pathname.split('/');
+        const festivalSlug = pathParts[pathParts.length - 1]; // Get the last part of the path
         
-        if (!festivalSlug) {
+        console.log('URL path:', window.location.pathname);
+        console.log('Extracted slug:', festivalSlug);
+        
+        if (!festivalSlug || festivalSlug === '') {
             document.body.innerHTML = '<div class="container"><h1>Error: No festival specified</h1><a href="/" class="back-btn">← Back to Home</a></div>';
         } else {
             // Load event data from server

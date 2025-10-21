@@ -1,29 +1,41 @@
 {
   "approved": [
     {
-      "id": "1",
-      "name": "Salah Birthday",
-      "date": "2025-12-15",
+      "name": "fsdf",
+      "date": "2025-10-24",
       "emoji": "🎉",
-      "tagline": "Celebrating another year of joy! 🎂",
-      "image": "https://via.placeholder.com/400x300/FF69B4/ffffff?text=🎉+Birthday+Celebration",
-      "description": "A special birthday celebration filled with joy, laughter, and wonderful memories.",
+      "tagline": "",
+      "image": "",
+      "description": "",
+      "id": "1761060338570",
+      "submittedAt": "2025-10-21T15:25:38.570Z",
       "status": "approved",
-      "submittedAt": "2024-12-20T10:00:00.000Z",
-      "approvedAt": "2024-12-20T10:05:00.000Z"
+      "approvedAt": "2025-10-21T15:25:45.219Z"
+    },
+    {
+      "name": "bbmnb",
+      "date": "2025-10-31",
+      "emoji": "bm",
+      "tagline": "bbnm",
+      "image": "",
+      "description": "",
+      "id": "1761060544145",
+      "submittedAt": "2025-10-21T15:29:04.145Z",
+      "status": "approved",
+      "approvedAt": "2025-10-21T15:29:11.701Z"
+    },
+    {
+      "name": "Salah birthday fasfdsfsf",
+      "date": "2025-10-31",
+      "emoji": "fs",
+      "tagline": "fasf",
+      "image": "",
+      "description": "",
+      "id": "1761060719416",
+      "submittedAt": "2025-10-21T15:31:59.416Z",
+      "status": "approved",
+      "approvedAt": "2025-10-21T15:32:05.715Z"
     }
   ],
-  "pending": [
-    {
-      "id": "2",
-      "name": "Test Festival",
-      "date": "2025-06-15",
-      "emoji": "🎊",
-      "tagline": "A test festival for testing",
-      "image": "https://via.placeholder.com/400x300/FF6B6B/ffffff?text=🎊+Test+Festival",
-      "description": "This is a test festival to verify the system works.",
-      "status": "pending",
-      "submittedAt": "2024-12-20T10:10:00.000Z"
-    }
-  ]
+  "pending": []
 }
