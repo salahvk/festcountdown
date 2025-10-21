@@ -6,44 +6,12 @@
   "framework": null,
   "rewrites": [
     {
-      "source": "/diwali",
-      "destination": "/diwali.html"
+      "source": "/(diwali|christmas|new-year|gandhi-jayanti|eid|onam|ramzan|apj-birthday|apj-death-day|salah-new-birthday)",
+      "destination": "/$1.html"
     },
     {
-      "source": "/christmas",
-      "destination": "/christmas.html"
-    },
-    {
-      "source": "/new-year",
-      "destination": "/new-year.html"
-    },
-    {
-      "source": "/gandhi-jayanti",
-      "destination": "/gandhi-jayanti.html"
-    },
-    {
-      "source": "/eid",
-      "destination": "/eid.html"
-    },
-    {
-      "source": "/onam",
-      "destination": "/onam.html"
-    },
-    {
-      "source": "/ramzan",
-      "destination": "/ramzan.html"
-    },
-    {
-      "source": "/apj-birthday",
-      "destination": "/apj-birthday.html"
-    },
-    {
-      "source": "/apj-death-day",
-      "destination": "/apj-death-day.html"
-    },
-    {
-      "source": "/salah-new-birthday",
-      "destination": "/salah-new-birthday.html"
+      "source": "/([a-zA-Z0-9-]+)",
+      "destination": "/event.html?festival=$1"
     }
   ],
   "headers": [
