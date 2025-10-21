@@ -1,0 +1,24 @@
+{
+  "name": "festcountdown",
+  "version": "1.0.0",
+  "description": "A beautiful festival countdown website with SEO optimization",
+  "main": "index.html",
+  "scripts": {
+    "build": "node scripts/generate-event-pages.js",
+    "dev": "python3 -m http.server 8000",
+    "deploy": "npm run build && gh-pages -d dist"
+  },
+  "keywords": [
+    "countdown",
+    "festival",
+    "events",
+    "diwali",
+    "christmas",
+    "new-year"
+  ],
+  "author": "Muhammed Salah",
+  "license": "MIT",
+  "devDependencies": {
+    "gh-pages": "^6.0.0"
+  }
+}

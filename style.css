@@ -285,6 +285,116 @@ body {
     transform: translateX(0);
 }
 
+/* Countdown Modal Styles */
+.countdown-modal {
+    max-width: 600px;
+    text-align: center;
+}
+
+.countdown-header {
+    margin-bottom: 30px;
+}
+
+.countdown-header h2 {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.countdown-header .event-tagline {
+    font-size: 1.2rem;
+    color: #b0b0b0;
+}
+
+.countdown-display {
+    margin: 30px 0;
+}
+
+.countdown-display .countdown {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.countdown-display .time-unit {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid #333;
+    border-radius: 15px;
+    padding: 20px 10px;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.countdown-display .time-unit:hover {
+    transform: translateY(-3px);
+    border-color: #4ecdc4;
+    box-shadow: 0 8px 25px rgba(78, 205, 196, 0.2);
+}
+
+.countdown-display .time-value {
+    display: block;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #4ecdc4;
+    margin-bottom: 5px;
+    transition: all 0.3s ease;
+    animation: countdownPulse 1s ease-in-out;
+}
+
+@keyframes countdownPulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+        color: #ff6b6b;
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.countdown-display .time-label {
+    font-size: 0.8rem;
+    color: #b0b0b0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.countdown-display .celebration {
+    background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+    padding: 30px;
+    border-radius: 15px;
+    animation: celebrationPulse 2s ease-in-out infinite;
+}
+
+.countdown-display .celebration h3 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+}
+
+.countdown-display .celebration p {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.event-details {
+    margin-top: 20px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    border: 1px solid #333;
+}
+
+.event-details p {
+    color: #e0e0e0;
+    font-size: 1.1rem;
+}
+
 /* Event Page Styles */
 .event-header {
     text-align: center;
@@ -611,6 +721,73 @@ body {
     padding: 40px;
 }
 
+/* Share Functionality Styles */
+.share-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.share-btn {
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: 600;
+    background: linear-gradient(45deg, #4ecdc4, #45b7d1);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+}
+
+.share-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(78, 205, 196, 0.4);
+}
+
+.share-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.share-option {
+    padding: 15px 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.share-option.facebook {
+    background: #1877f2;
+    color: white;
+}
+
+.share-option.twitter {
+    background: #1da1f2;
+    color: white;
+}
+
+.share-option.whatsapp {
+    background: #25d366;
+    color: white;
+}
+
+.share-option.copy {
+    background: #6c757d;
+    color: white;
+}
+
+.share-option:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
 /* Utility Classes */
 .hidden {
     display: none !important;
@@ -688,6 +865,15 @@ body {
         grid-template-columns: repeat(2, 1fr);
     }
     
+    .countdown-display .countdown {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+    
+    .countdown-display .time-value {
+        font-size: 1.5rem;
+    }
+    
     .admin-event-card {
         flex-direction: column;
         gap: 20px;
@@ -714,5 +900,13 @@ body {
     
     .event-grid {
         grid-template-columns: 1fr;
+    }
+    
+    .countdown-display .countdown {
+        grid-template-columns: 1fr;
+    }
+    
+    .countdown-display .time-value {
+        font-size: 1.3rem;
     }
 }
