@@ -22,7 +22,7 @@ class FestivalCountdownHandler(http.server.SimpleHTTPRequestHandler):
             festival_name = path[1:]  # Remove leading slash
             
             # Check if this is a festival page
-            festival_files = ['diwali', 'christmas', 'new-year', 'gandhi-jayanti']
+            festival_files = ['diwali', 'christmas', 'new-year', 'gandhi-jayanti', 'eid', 'onam', 'ramzan', 'apj-birthday', 'apj-death-day', 'salah-new-birthday']
             if festival_name in festival_files:
                 # Serve the festival HTML file
                 festival_file = f"{festival_name}.html"
@@ -70,21 +70,35 @@ def run_server(port=8000):
     """Run the development server"""
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
     
-    with socketserver.TCPServer(("", port), FestivalCountdownHandler) as httpd:
-        print(f"🎉 Festival Countdown Server running at http://localhost:{port}")
-        print(f"📱 Available URLs:")
-        print(f"   • Main site: http://localhost:{port}/")
-        print(f"   • Diwali: http://localhost:{port}/diwali")
-        print(f"   • Christmas: http://localhost:{port}/christmas")
-        print(f"   • New Year: http://localhost:{port}/new-year")
-        print(f"   • Gandhi Jayanti: http://localhost:{port}/gandhi-jayanti")
-        print(f"   • Admin: http://localhost:{port}/admin.html")
-        print(f"\n🚀 Press Ctrl+C to stop the server")
-        
+    # Try different ports if 8000 is busy
+    ports_to_try = [8000, 8001, 8002, 8003, 3000, 3001]
+    
+    for port in ports_to_try:
         try:
-            httpd.serve_forever()
-        except KeyboardInterrupt:
-            print(f"\n👋 Server stopped!")
+            with socketserver.TCPServer(("", port), FestivalCountdownHandler) as httpd:
+                print(f"🎉 Festival Countdown Server running at http://localhost:{port}")
+                print(f"📱 Available URLs:")
+                print(f"   • Main site: http://localhost:{port}/")
+                print(f"   • Diwali: http://localhost:{port}/diwali")
+                print(f"   • Christmas: http://localhost:{port}/christmas")
+                print(f"   • New Year: http://localhost:{port}/new-year")
+                print(f"   • Gandhi Jayanti: http://localhost:{port}/gandhi-jayanti")
+                print(f"   • Admin: http://localhost:{port}/admin.html")
+                print(f"\n🚀 Press Ctrl+C to stop the server")
+                
+                try:
+                    httpd.serve_forever()
+                except KeyboardInterrupt:
+                    print(f"\n👋 Server stopped!")
+                return
+        except OSError as e:
+            if e.errno == 48:  # Address already in use
+                print(f"⚠️  Port {port} is busy, trying next port...")
+                continue
+            else:
+                raise e
+    
+    print("❌ Could not find an available port. Please close other servers or try again.")
 
 if __name__ == "__main__":
     run_server()

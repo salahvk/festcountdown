@@ -5,30 +5,101 @@ const events = {
         date: "2025-10-20", 
         emoji: "🪔", 
         tagline: "Festival of Lights begins soon ✨", 
-        image: "https://via.placeholder.com/400x300/ff6b6b/ffffff?text=🪔+Diwali+Festival" 
+        image: "https://via.placeholder.com/400x300/ff6b6b/ffffff?text=🪔+Diwali+Festival",
+        description: "Diwali, the Festival of Lights, is one of the most important Hindu festivals celebrated across India and the world. It symbolizes the victory of light over darkness and good over evil."
     },
     "gandhi-jayanti": { 
         name: "Gandhi Jayanti", 
         date: "2025-10-02", 
         emoji: "🕊", 
         tagline: "Honoring the Mahatma 🙏", 
-        image: "https://via.placeholder.com/400x300/FFD700/ffffff?text=🕊+Gandhi+Jayanti" 
+        image: "https://via.placeholder.com/400x300/FFD700/ffffff?text=🕊+Gandhi+Jayanti",
+        description: "Gandhi Jayanti commemorates the birth anniversary of Mahatma Gandhi, the Father of the Nation, who led India to independence through non-violent resistance."
     },
     christmas: { 
         name: "Christmas", 
         date: "2025-12-25", 
         emoji: "🎄", 
         tagline: "Merry Christmas in advance 🎅", 
-        image: "https://via.placeholder.com/400x300/228B22/ffffff?text=🎄+Christmas+Festival" 
+        image: "https://via.placeholder.com/400x300/228B22/ffffff?text=🎄+Christmas+Festival",
+        description: "Christmas is a Christian holiday celebrating the birth of Jesus Christ, observed by billions of people worldwide with joy, gifts, and festive celebrations."
     },
     "new-year": { 
         name: "New Year 2026", 
         date: "2026-01-01", 
         emoji: "🎆", 
         tagline: "A new beginning awaits 🌟", 
-        image: "https://via.placeholder.com/400x300/4B0082/ffffff?text=🎆+New+Year+Festival" 
+        image: "https://via.placeholder.com/400x300/4B0082/ffffff?text=🎆+New+Year+Festival",
+        description: "New Year's Day marks the beginning of a new calendar year, celebrated worldwide with fireworks, parties, and resolutions for the year ahead."
+    },
+    eid: {
+        name: "Eid al-Fitr",
+        date: "2025-03-30",
+        emoji: "🌙",
+        tagline: "Celebrating the end of Ramadan 🌟",
+        image: "https://via.placeholder.com/400x300/228B22/ffffff?text=🌙+Eid+al-Fitr",
+        description: "Eid al-Fitr is a Muslim holiday that marks the end of Ramadan, the Islamic holy month of fasting. It's a time of joy, gratitude, and celebration with family and friends."
+    },
+    onam: {
+        name: "Onam",
+        date: "2025-09-12",
+        emoji: "🎭",
+        tagline: "Kerala's harvest festival 🍃",
+        image: "https://via.placeholder.com/400x300/FFD700/ffffff?text=🎭+Onam+Festival",
+        description: "Onam is a major annual festival celebrated in Kerala, India. It commemorates the homecoming of the legendary King Mahabali and marks the harvest season."
+    },
+    ramzan: {
+        name: "Ramadan",
+        date: "2025-02-28",
+        emoji: "☪️",
+        tagline: "Holy month of fasting begins 🌙",
+        image: "https://via.placeholder.com/400x300/4B0082/ffffff?text=☪️+Ramadan",
+        description: "Ramadan is the ninth month of the Islamic calendar, observed by Muslims worldwide as a month of fasting, prayer, reflection, and community."
+    },
+    "apj-birthday": {
+        name: "APJ Abdul Kalam Birthday",
+        date: "2025-10-15",
+        emoji: "🚀",
+        tagline: "Remembering the People's President 🎓",
+        image: "https://via.placeholder.com/400x300/FF6B6B/ffffff?text=🚀+APJ+Kalam+Birthday",
+        description: "Dr. APJ Abdul Kalam, known as the 'People's President' and 'Missile Man of India', was born on this day. A scientist, teacher, and former President of India."
+    },
+    "apj-death-day": {
+        name: "APJ Abdul Kalam Death Anniversary",
+        date: "2025-07-27",
+        emoji: "🕊️",
+        tagline: "Honoring the Missile Man's legacy 🚀",
+        image: "https://via.placeholder.com/400x300/4B0082/ffffff?text=🕊️+APJ+Kalam+Memorial",
+        description: "Remembering Dr. APJ Abdul Kalam on his death anniversary. A visionary leader who inspired millions with his dedication to science, education, and nation-building."
     }
 };
+
+// Function to get the correct date for an event (current year or next year if passed)
+function getEventDate(event) {
+    const currentYear = new Date().getFullYear();
+    const eventDate = new Date(event.date);
+    const currentDate = new Date();
+    
+    // If the event date has passed this year, use next year's date
+    if (eventDate < currentDate) {
+        const nextYearDate = new Date(event.date);
+        nextYearDate.setFullYear(currentYear + 1);
+        return nextYearDate.toISOString().split('T')[0];
+    }
+    
+    return event.date;
+}
+
+// Function to get event with correct date
+function getEventWithCorrectDate(eventSlug) {
+    const event = events[eventSlug];
+    if (!event) return null;
+    
+    return {
+        ...event,
+        date: getEventDate(event)
+    };
+}
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', function() {

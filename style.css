@@ -276,9 +276,11 @@ body {
     padding: 15px 25px;
     border-radius: 10px;
     box-shadow: 0 5px 20px rgba(78, 205, 196, 0.3);
-    transform: translateX(400px);
+    transform: translateX(100%);
     transition: transform 0.3s ease;
     z-index: 1001;
+    max-width: 300px;
+    word-wrap: break-word;
 }
 
 .success-message.show {
@@ -432,7 +434,7 @@ body {
 .event-tagline {
     font-size: 1.3rem;
     color: #b0b0b0;
-    margin-bottom: 40px;
+    margin-bottom: 15px;
 }
 
 .countdown-main {
@@ -786,6 +788,165 @@ body {
 .share-option:hover {
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* New Layout Styles for Event Pages */
+.countdown-main-new {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 50vh;
+    margin: 20px 0;
+}
+
+.countdown-container-large {
+    text-align: center;
+    width: 100%;
+    max-width: 800px;
+}
+
+.countdown-large {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.time-unit-large {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid #333;
+    border-radius: 20px;
+    padding: 40px 20px;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.time-unit-large:hover {
+    transform: translateY(-8px);
+    border-color: #4ecdc4;
+    box-shadow: 0 15px 40px rgba(78, 205, 196, 0.3);
+}
+
+.time-value-large {
+    display: block;
+    font-size: 4rem;
+    font-weight: 700;
+    color: #4ecdc4;
+    margin-bottom: 10px;
+    transition: all 0.3s ease;
+}
+
+.time-label-large {
+    font-size: 1.2rem;
+    color: #b0b0b0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 600;
+}
+
+.celebration-large {
+    background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+    padding: 50px;
+    border-radius: 25px;
+    text-align: center;
+    animation: celebrationPulse 2s ease-in-out infinite;
+    margin-bottom: 40px;
+}
+
+.celebration-large h2 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+.celebration-large p {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.share-container-below {
+    margin-top: 30px;
+}
+
+.back-btn-bottom {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    z-index: 100;
+}
+
+.back-btn-bottom .back-btn {
+    display: inline-block;
+    padding: 15px 25px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    border: 1px solid #333;
+    font-weight: 600;
+}
+
+.back-btn-bottom .back-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive Design for New Layout */
+@media (max-width: 768px) {
+    .countdown-large {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+    
+    .time-value-large {
+        font-size: 3rem;
+    }
+    
+    .time-unit-large {
+        padding: 30px 15px;
+    }
+    
+    .celebration-large h2 {
+        font-size: 2.5rem;
+    }
+    
+    .celebration-large p {
+        font-size: 1.2rem;
+    }
+    
+    .back-btn-bottom {
+        bottom: 20px;
+        left: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .countdown-large {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .time-value-large {
+        font-size: 2.5rem;
+    }
+    
+    .time-unit-large {
+        padding: 25px 10px;
+    }
+    
+    .celebration-large {
+        padding: 30px;
+    }
+    
+    .celebration-large h2 {
+        font-size: 2rem;
+    }
+    
+    .celebration-large p {
+        font-size: 1rem;
+    }
 }
 
 /* Utility Classes */
