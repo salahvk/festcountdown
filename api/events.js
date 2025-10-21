@@ -1,16 +1,24 @@
 // API endpoint for managing events
-import fs from 'fs';
-import path from 'path';
+// Using in-memory storage for Vercel serverless functions
 
-const EVENTS_FILE = path.join(process.cwd(), 'events.json');
-
-// Initialize events file if it doesn't exist
-if (!fs.existsSync(EVENTS_FILE)) {
-  fs.writeFileSync(EVENTS_FILE, JSON.stringify({
-    approved: [],
-    pending: []
-  }));
-}
+// In-memory storage (will reset on each deployment)
+let eventsData = {
+  approved: [
+    {
+      "id": "1",
+      "name": "Salah Birthday",
+      "date": "2025-12-15",
+      "emoji": "🎉",
+      "tagline": "Celebrating another year of joy! 🎂",
+      "image": "https://via.placeholder.com/400x300/FF69B4/ffffff?text=🎉+Birthday+Celebration",
+      "description": "A special birthday celebration filled with joy, laughter, and wonderful memories.",
+      "status": "approved",
+      "submittedAt": "2024-12-20T10:00:00.000Z",
+      "approvedAt": "2024-12-20T10:05:00.000Z"
+    }
+  ],
+  pending: []
+};
 
 export default function handler(req, res) {
   // Set CORS headers
@@ -24,8 +32,6 @@ export default function handler(req, res) {
   }
 
   try {
-    const eventsData = JSON.parse(fs.readFileSync(EVENTS_FILE, 'utf8'));
-
     switch (req.method) {
       case 'GET':
         // Get all events
@@ -42,7 +48,6 @@ export default function handler(req, res) {
         };
         
         eventsData.pending.push(newEvent);
-        fs.writeFileSync(EVENTS_FILE, JSON.stringify(eventsData, null, 2));
         
         res.status(201).json({ message: 'Event submitted successfully', event: newEvent });
         break;
@@ -64,7 +69,6 @@ export default function handler(req, res) {
           eventsData.approved.push(event);
           eventsData.pending.splice(pendingIndex, 1);
           
-          fs.writeFileSync(EVENTS_FILE, JSON.stringify(eventsData, null, 2));
           res.status(200).json({ message: 'Event approved successfully' });
         } else if (action === 'reject') {
           const pendingIndex = eventsData.pending.findIndex(e => e.id === id);
@@ -73,7 +77,6 @@ export default function handler(req, res) {
           }
           
           eventsData.pending.splice(pendingIndex, 1);
-          fs.writeFileSync(EVENTS_FILE, JSON.stringify(eventsData, null, 2));
           res.status(200).json({ message: 'Event rejected' });
         } else if (action === 'remove') {
           const approvedIndex = eventsData.approved.findIndex(e => e.id === id);
@@ -82,7 +85,6 @@ export default function handler(req, res) {
           }
           
           eventsData.approved.splice(approvedIndex, 1);
-          fs.writeFileSync(EVENTS_FILE, JSON.stringify(eventsData, null, 2));
           res.status(200).json({ message: 'Event removed successfully' });
         }
         break;

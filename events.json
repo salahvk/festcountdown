@@ -35,7 +35,31 @@
       "submittedAt": "2025-10-21T15:31:59.416Z",
       "status": "approved",
       "approvedAt": "2025-10-21T15:32:05.715Z"
+    },
+    {
+      "name": "Test Vercel Event",
+      "date": "2025-12-25",
+      "emoji": "🎄",
+      "tagline": "Testing Vercel submission",
+      "image": "https://example.com/image.jpg",
+      "description": "Test event for Vercel",
+      "id": "1761060969689",
+      "submittedAt": "2025-10-21T15:36:09.689Z",
+      "status": "approved",
+      "approvedAt": "2025-10-21T15:36:12.550Z"
     }
   ],
-  "pending": []
+  "pending": [
+    {
+      "name": "Test Live Event",
+      "date": "2025-12-25",
+      "emoji": "🎄",
+      "tagline": "Testing live submission",
+      "image": "https://example.com/image.jpg",
+      "description": "Test event for live submission",
+      "id": "1761060893641",
+      "submittedAt": "2025-10-21T15:34:53.641Z",
+      "status": "pending"
+    }
+  ]
 }

@@ -7,7 +7,7 @@
   "rewrites": [
     {
       "source": "/([a-zA-Z0-9-]+)",
-      "destination": "/event.html?festival=$1"
+      "destination": "/event.html"
     }
   ],
   "headers": [

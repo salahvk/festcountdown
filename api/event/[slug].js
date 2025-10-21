@@ -1,8 +1,24 @@
 // API endpoint for getting specific event by slug
-import fs from 'fs';
-import path from 'path';
+// Using in-memory storage for Vercel serverless functions
 
-const EVENTS_FILE = path.join(process.cwd(), 'events.json');
+// In-memory storage (will reset on each deployment)
+let eventsData = {
+  approved: [
+    {
+      "id": "1",
+      "name": "Salah Birthday",
+      "date": "2025-12-15",
+      "emoji": "🎉",
+      "tagline": "Celebrating another year of joy! 🎂",
+      "image": "https://via.placeholder.com/400x300/FF69B4/ffffff?text=🎉+Birthday+Celebration",
+      "description": "A special birthday celebration filled with joy, laughter, and wonderful memories.",
+      "status": "approved",
+      "submittedAt": "2024-12-20T10:00:00.000Z",
+      "approvedAt": "2024-12-20T10:05:00.000Z"
+    }
+  ],
+  pending: []
+};
 
 export default function handler(req, res) {
   const { slug } = req.query;
@@ -22,12 +38,6 @@ export default function handler(req, res) {
   }
 
   try {
-    if (!fs.existsSync(EVENTS_FILE)) {
-      return res.status(404).json({ error: 'Event not found' });
-    }
-
-    const eventsData = JSON.parse(fs.readFileSync(EVENTS_FILE, 'utf8'));
-    
     // Find event by slug in approved events
     const event = eventsData.approved.find(e => {
       const eventSlug = e.name.toLowerCase().replace(/\s+/g, '-');
