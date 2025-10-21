@@ -350,8 +350,9 @@ function showSuccessMessage() {
 async function loadEventsFromServer() {
     try {
         const response = await fetch('/api/events');
+        
         if (!response.ok) {
-            throw new Error('Failed to load events');
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
         }
         
         const data = await response.json();

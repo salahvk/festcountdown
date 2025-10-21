@@ -1,4 +1,29 @@
 {
-  "approved": [],
-  "pending": []
+  "approved": [
+    {
+      "id": "1",
+      "name": "Salah Birthday",
+      "date": "2025-12-15",
+      "emoji": "🎉",
+      "tagline": "Celebrating another year of joy! 🎂",
+      "image": "https://via.placeholder.com/400x300/FF69B4/ffffff?text=🎉+Birthday+Celebration",
+      "description": "A special birthday celebration filled with joy, laughter, and wonderful memories.",
+      "status": "approved",
+      "submittedAt": "2024-12-20T10:00:00.000Z",
+      "approvedAt": "2024-12-20T10:05:00.000Z"
+    }
+  ],
+  "pending": [
+    {
+      "id": "2",
+      "name": "Test Festival",
+      "date": "2025-06-15",
+      "emoji": "🎊",
+      "tagline": "A test festival for testing",
+      "image": "https://via.placeholder.com/400x300/FF6B6B/ffffff?text=🎊+Test+Festival",
+      "description": "This is a test festival to verify the system works.",
+      "status": "pending",
+      "submittedAt": "2024-12-20T10:10:00.000Z"
+    }
+  ]
 }

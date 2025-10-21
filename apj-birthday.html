@@ -5,37 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- SEO Meta Tags -->
-    <title id="pageTitle">Festival Countdown</title>
-    <meta name="description" id="pageDescription" content="Festival countdown timer">
-    <meta name="keywords" id="pageKeywords" content="festival countdown, countdown timer">
+    <title>APJ Abdul Kalam Birthday Countdown 2025 - Remembering the People's President 🎓</title>
+    <meta name="description" content="Dr. APJ Abdul Kalam, known as the 'People's President' and 'Missile Man of India', was born on this day. A scientist, teacher, and former President of India. Countdown timer showing exactly how many days, hours, minutes, and seconds until APJ Abdul Kalam Birthday 2026. Remembering the People's President 🎓">
+    <meta name="keywords" content="apj abdul kalam birthday, apj abdul kalam birthday countdown, apj abdul kalam birthday 2026, festival countdown, apj abdul kalam birthday timer, apj abdul kalam birthday date">
     
     <!-- Open Graph Meta Tags -->
-    <meta property="og:title" id="ogTitle" content="Festival Countdown">
-    <meta property="og:description" id="ogDescription" content="Festival countdown timer">
-    <meta property="og:image" id="ogImage" content="">
-    <meta property="og:url" id="ogUrl" content="">
+    <meta property="og:title" content="APJ Abdul Kalam Birthday Countdown 2026 - Remembering the People's President 🎓">
+    <meta property="og:description" content="Dr. APJ Abdul Kalam, known as the 'People's President' and 'Missile Man of India', was born on this day. A scientist, teacher, and former President of India. Countdown timer showing exactly how many days, hours, minutes, and seconds until APJ Abdul Kalam Birthday 2026.">
+    <meta property="og:image" content="https://via.placeholder.com/400x300/FF6B6B/ffffff?text=🚀+APJ+Kalam+Birthday">
+    <meta property="og:url" content="https://festcountdown.com/apj-birthday">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Festival Countdown">
     
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" id="twitterTitle" content="Festival Countdown">
-    <meta name="twitter:description" id="twitterDescription" content="Festival countdown timer">
-    <meta name="twitter:image" id="twitterImage" content="">
+    <meta name="twitter:title" content="APJ Abdul Kalam Birthday Countdown 2026">
+    <meta name="twitter:description" content="Dr. APJ Abdul Kalam, known as the 'People's President' and 'Missile Man of India', was born on this day. A scientist, teacher, and former President of India. Countdown timer showing exactly how many days, hours, minutes, and seconds until APJ Abdul Kalam Birthday 2026.">
+    <meta name="twitter:image" content="https://via.placeholder.com/400x300/FF6B6B/ffffff?text=🚀+APJ+Kalam+Birthday">
     
     <!-- Canonical URL -->
-    <link rel="canonical" id="canonicalUrl" href="">
+    <link rel="canonical" href="https://festcountdown.com/apj-birthday">
     
     <!-- Structured Data -->
-    <script type="application/ld+json" id="structuredData">
+    <script type="application/ld+json">
     {
         "@context": "https://schema.org",
         "@type": "Event",
-        "name": "Festival",
-        "description": "Festival countdown",
-        "startDate": "",
-        "image": "",
-        "url": "",
+        "name": "APJ Abdul Kalam Birthday",
+        "description": "Dr. APJ Abdul Kalam, known as the 'People's President' and 'Missile Man of India', was born on this day. A scientist, teacher, and former President of India.",
+        "startDate": "2026-10-15",
+        "image": "https://via.placeholder.com/400x300/FF6B6B/ffffff?text=🚀+APJ+Kalam+Birthday",
+        "url": "https://festcountdown.com/apj-birthday",
         "organizer": {
             "@type": "Organization",
             "name": "Festival Countdown"
@@ -49,8 +49,8 @@
 <body>
     <div class="container">
         <header class="event-header">
-            <h1 id="eventTitle" class="event-title">Loading...</h1>
-            <p id="eventTagline" class="event-tagline">Loading...</p>
+            <h1 id="eventTitle" class="event-title">🚀 APJ Abdul Kalam Birthday</h1>
+            <p id="eventTagline" class="event-tagline">Remembering the People's President 🎓</p>
         </header>
 
         <main class="countdown-main-new">
@@ -76,7 +76,7 @@
 
                 <div id="celebration" class="celebration-large hidden">
                     <h2>🎉 It's Time to Celebrate! 🎉</h2>
-                    <p id="celebrationMessage">Celebration time!</p>
+                    <p id="celebrationMessage">Remembering the People's President 🎓</p>
                 </div>
                 
                 <!-- Share Button below countdown -->
@@ -98,93 +98,15 @@
         </div>
     </div>
 
+    <script src="script.js"></script>
     <script>
-        // Get festival slug from URL parameters
-        const urlParams = new URLSearchParams(window.location.search);
-        const festivalSlug = urlParams.get('festival');
-        
-        if (!festivalSlug) {
-            document.body.innerHTML = '<div class="container"><h1>Error: No festival specified</h1><a href="/" class="back-btn">← Back to Home</a></div>';
-        } else {
-            // Load event data from server
-            loadEventData(festivalSlug);
-        }
-
-        async function loadEventData(slug) {
-            try {
-                const response = await fetch(`/api/event/${slug}`);
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-                }
-                
-                const eventData = await response.json();
-                initializeEvent(eventData);
-            } catch (error) {
-                console.error('Error loading event:', error);
-                document.body.innerHTML = `
-                    <div class="container">
-                        <h1>Event Not Found</h1>
-                        <p>The festival "${slug}" could not be found.</p>
-                        <p>Error: ${error.message}</p>
-                        <a href="/" class="back-btn">← Back to Home</a>
-                    </div>
-                `;
-            }
-        }
-
-        function initializeEvent(eventData) {
-            // Update page metadata
-            updatePageMetadata(eventData);
-            
-            // Display event
+        // Event-specific script
+        document.addEventListener('DOMContentLoaded', function() {
+            const eventData = {"name":"APJ Abdul Kalam Birthday","date":"2026-10-15","emoji":"🚀","tagline":"Remembering the People's President 🎓","image":"https://via.placeholder.com/400x300/FF6B6B/ffffff?text=🚀+APJ+Kalam+Birthday","description":"Dr. APJ Abdul Kalam, known as the 'People's President' and 'Missile Man of India', was born on this day. A scientist, teacher, and former President of India."};
             displayEvent(eventData);
-            
-            // Start countdown
             startCountdown(eventData);
-            
-            // Setup share functionality
-            setupShareFunctionality(eventData);
-        }
-
-        function updatePageMetadata(event) {
-            const currentUrl = window.location.href;
-            
-            // Update title and meta tags
-            document.getElementById('pageTitle').textContent = `${event.name} Countdown - ${event.tagline}`;
-            document.getElementById('pageDescription').content = `${event.description || event.tagline}. Countdown timer showing exactly how many days, hours, minutes, and seconds until ${event.name}.`;
-            document.getElementById('pageKeywords').content = `${event.name.toLowerCase()}, ${event.name.toLowerCase()} countdown, festival countdown, ${event.name.toLowerCase()} timer, ${event.name.toLowerCase()} date`;
-            
-            // Open Graph tags
-            document.getElementById('ogTitle').content = `${event.name} Countdown - ${event.tagline}`;
-            document.getElementById('ogDescription').content = `${event.description || event.tagline}. Countdown timer showing exactly how many days, hours, minutes, and seconds until ${event.name}.`;
-            document.getElementById('ogImage').content = event.image || 'https://via.placeholder.com/400x300/4B0082/ffffff?text=' + encodeURIComponent(event.emoji + ' ' + event.name);
-            document.getElementById('ogUrl').content = currentUrl;
-            
-            // Twitter tags
-            document.getElementById('twitterTitle').content = `${event.name} Countdown`;
-            document.getElementById('twitterDescription').content = `${event.description || event.tagline}. Countdown timer showing exactly how many days, hours, minutes, and seconds until ${event.name}.`;
-            document.getElementById('twitterImage').content = event.image || 'https://via.placeholder.com/400x300/4B0082/ffffff?text=' + encodeURIComponent(event.emoji + ' ' + event.name);
-            
-            // Canonical URL
-            document.getElementById('canonicalUrl').href = currentUrl;
-            
-            // Structured data
-            const structuredData = {
-                "@context": "https://schema.org",
-                "@type": "Event",
-                "name": event.name,
-                "description": event.description || event.tagline,
-                "startDate": event.date,
-                "image": event.image || 'https://via.placeholder.com/400x300/4B0082/ffffff?text=' + encodeURIComponent(event.emoji + ' ' + event.name),
-                "url": currentUrl,
-                "organizer": {
-                    "@type": "Organization",
-                    "name": "Festival Countdown"
-                }
-            };
-            document.getElementById('structuredData').textContent = JSON.stringify(structuredData);
-        }
+            setupShareFunctionality();
+        });
 
         function displayEvent(event) {
             document.getElementById('eventTitle').textContent = event.emoji + ' ' + event.name;
@@ -221,7 +143,7 @@
             setInterval(updateCountdown, 1000);
         }
 
-        function setupShareFunctionality(event) {
+        function setupShareFunctionality() {
             const shareBtn = document.getElementById('shareBtn');
             const shareOptions = document.getElementById('shareOptions');
             
@@ -239,19 +161,19 @@
 
         function shareToFacebook() {
             const url = encodeURIComponent(window.location.href);
-            const text = encodeURIComponent(`Check out this ${document.getElementById('eventTitle').textContent} countdown!`);
+            const text = encodeURIComponent(`Check out this APJ Abdul Kalam Birthday countdown!`);
             window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${text}`, '_blank');
         }
 
         function shareToTwitter() {
             const url = encodeURIComponent(window.location.href);
-            const text = encodeURIComponent(`Check out this ${document.getElementById('eventTitle').textContent} countdown! ${document.getElementById('eventTagline').textContent}`);
+            const text = encodeURIComponent(`Check out this APJ Abdul Kalam Birthday countdown! Remembering the People's President 🎓`);
             window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, '_blank');
         }
 
         function shareToWhatsApp() {
             const url = encodeURIComponent(window.location.href);
-            const text = encodeURIComponent(`Check out this ${document.getElementById('eventTitle').textContent} countdown! ${document.getElementById('eventTagline').textContent}`);
+            const text = encodeURIComponent(`Check out this APJ Abdul Kalam Birthday countdown! Remembering the People's President 🎓`);
             window.open(`https://wa.me/?text=${text} ${url}`, '_blank');
         }
 
