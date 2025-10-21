@@ -4,9 +4,11 @@
   "description": "A beautiful festival countdown website with SEO optimization",
   "main": "index.html",
   "scripts": {
-    "build": "node scripts/generate-event-pages.js",
-    "dev": "python3 -m http.server 8000",
-    "deploy": "npm run build && gh-pages -d dist"
+    "build": "node scripts/generate-event-pages.js && cp *.html dist/ && cp *.css dist/ && cp *.js dist/ && cp *.htaccess dist/ 2>/dev/null || true && cp -r images dist/ 2>/dev/null || true && cp dist/*.html .",
+    "dev": "python3 dev-server.py",
+    "dev-simple": "python3 -m http.server 8000",
+    "deploy": "npm run build && gh-pages -d dist",
+    "vercel-build": "npm run build"
   },
   "keywords": [
     "countdown",

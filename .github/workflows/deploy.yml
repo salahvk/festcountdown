@@ -29,6 +29,7 @@ jobs:
         cp *.html dist/
         cp *.css dist/
         cp *.js dist/
+        cp *.htaccess dist/ 2>/dev/null || true
         cp -r images dist/ 2>/dev/null || true
         
         # Generate dynamic event pages
