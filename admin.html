@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Festival Countdown Finder</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="admin-header">
+            <h1>🛠 Admin Panel</h1>
+            <a href="index.html" class="back-btn">← Back to Home</a>
+        </header>
+
+        <div id="loginForm" class="login-form">
+            <h2>Admin Login</h2>
+            <input type="password" id="adminPassword" placeholder="Enter admin password" class="password-input">
+            <button id="loginBtn" class="login-btn">Login</button>
+        </div>
+
+        <div id="adminPanel" class="admin-panel hidden">
+            <div class="admin-stats">
+                <div class="stat-card">
+                    <h3>Pending Events</h3>
+                    <span id="pendingCount" class="stat-number">0</span>
+                </div>
+                <div class="stat-card">
+                    <h3>Approved Events</h3>
+                    <span id="approvedCount" class="stat-number">0</span>
+                </div>
+            </div>
+
+            <div class="pending-events">
+                <h2>Pending Event Submissions</h2>
+                <div id="pendingEventsList" class="events-list">
+                    <!-- Pending events will be populated here -->
+                </div>
+            </div>
+
+            <div class="approved-events">
+                <h2>Approved Events</h2>
+                <div id="approvedEventsList" class="events-list">
+                    <!-- Approved events will be populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Admin-specific script
+        document.addEventListener('DOMContentLoaded', function() {
+            const ADMIN_PASSWORD = 'admin123'; // Simple password for demo
+            
+            document.getElementById('loginBtn').addEventListener('click', function() {
+                const password = document.getElementById('adminPassword').value;
+                if (password === ADMIN_PASSWORD) {
+                    document.getElementById('loginForm').classList.add('hidden');
+                    document.getElementById('adminPanel').classList.remove('hidden');
+                    loadAdminData();
+                } else {
+                    alert('Incorrect password!');
+                }
+            });
+
+            // Allow Enter key to login
+            document.getElementById('adminPassword').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    document.getElementById('loginBtn').click();
+                }
+            });
+        });
+
+        function loadAdminData() {
+            const pendingEvents = JSON.parse(localStorage.getItem('pendingEvents') || '[]');
+            const approvedEvents = JSON.parse(localStorage.getItem('approvedEvents') || '[]');
+            
+            document.getElementById('pendingCount').textContent = pendingEvents.length;
+            document.getElementById('approvedCount').textContent = approvedEvents.length;
+            
+            displayPendingEvents(pendingEvents);
+            displayApprovedEvents(approvedEvents);
+        }
+
+        function displayPendingEvents(events) {
+            const container = document.getElementById('pendingEventsList');
+            container.innerHTML = '';
+            
+            if (events.length === 0) {
+                container.innerHTML = '<p class="no-events">No pending events</p>';
+                return;
+            }
+            
+            events.forEach((event, index) => {
+                const eventCard = document.createElement('div');
+                eventCard.className = 'admin-event-card';
+                eventCard.innerHTML = `
+                    <div class="event-info">
+                        <h3>${event.emoji} ${event.name}</h3>
+                        <p><strong>Date:</strong> ${new Date(event.date).toLocaleDateString()}</p>
+                        <p><strong>Tagline:</strong> ${event.tagline}</p>
+                        <p><strong>Image:</strong> ${event.image || 'No image provided'}</p>
+                        <p><strong>Submitted:</strong> ${new Date(event.submittedAt).toLocaleString()}</p>
+                    </div>
+                    <div class="event-actions">
+                        <button onclick="approveEvent(${index})" class="approve-btn">✅ Approve</button>
+                        <button onclick="rejectEvent(${index})" class="reject-btn">❌ Reject</button>
+                    </div>
+                `;
+                container.appendChild(eventCard);
+            });
+        }
+
+        function displayApprovedEvents(events) {
+            const container = document.getElementById('approvedEventsList');
+            container.innerHTML = '';
+            
+            if (events.length === 0) {
+                container.innerHTML = '<p class="no-events">No approved events</p>';
+                return;
+            }
+            
+            events.forEach((event, index) => {
+                const eventCard = document.createElement('div');
+                eventCard.className = 'admin-event-card approved';
+                eventCard.innerHTML = `
+                    <div class="event-info">
+                        <h3>${event.emoji} ${event.name}</h3>
+                        <p><strong>Date:</strong> ${new Date(event.date).toLocaleDateString()}</p>
+                        <p><strong>Tagline:</strong> ${event.tagline}</p>
+                        <p><strong>Approved:</strong> ${new Date(event.approvedAt).toLocaleString()}</p>
+                    </div>
+                    <div class="event-actions">
+                        <button onclick="removeApprovedEvent(${index})" class="remove-btn">🗑️ Remove</button>
+                    </div>
+                `;
+                container.appendChild(eventCard);
+            });
+        }
+
+        function approveEvent(index) {
+            const pendingEvents = JSON.parse(localStorage.getItem('pendingEvents') || '[]');
+            const approvedEvents = JSON.parse(localStorage.getItem('approvedEvents') || '[]');
+            
+            const event = pendingEvents[index];
+            event.approvedAt = new Date().toISOString();
+            
+            approvedEvents.push(event);
+            pendingEvents.splice(index, 1);
+            
+            localStorage.setItem('pendingEvents', JSON.stringify(pendingEvents));
+            localStorage.setItem('approvedEvents', JSON.stringify(approvedEvents));
+            
+            // Update main events object
+            updateMainEvents();
+            
+            loadAdminData();
+            alert('Event approved successfully!');
+        }
+
+        function rejectEvent(index) {
+            const pendingEvents = JSON.parse(localStorage.getItem('pendingEvents') || '[]');
+            pendingEvents.splice(index, 1);
+            
+            localStorage.setItem('pendingEvents', JSON.stringify(pendingEvents));
+            loadAdminData();
+            alert('Event rejected and removed.');
+        }
+
+        function removeApprovedEvent(index) {
+            if (confirm('Are you sure you want to remove this approved event?')) {
+                const approvedEvents = JSON.parse(localStorage.getItem('approvedEvents') || '[]');
+                approvedEvents.splice(index, 1);
+                
+                localStorage.setItem('approvedEvents', JSON.stringify(approvedEvents));
+                
+                // Update main events object
+                updateMainEvents();
+                
+                loadAdminData();
+                alert('Event removed successfully!');
+            }
+        }
+
+        function updateMainEvents() {
+            const approvedEvents = JSON.parse(localStorage.getItem('approvedEvents') || '[]');
+            const mainEvents = JSON.parse(localStorage.getItem('mainEvents') || '{}');
+            
+            // Add approved events to main events
+            approvedEvents.forEach(event => {
+                const slug = event.name.toLowerCase().replace(/\s+/g, '-');
+                mainEvents[slug] = {
+                    name: event.name,
+                    date: event.date,
+                    emoji: event.emoji,
+                    tagline: event.tagline,
+                    image: event.image
+                };
+            });
+            
+            localStorage.setItem('mainEvents', JSON.stringify(mainEvents));
+        }
+    </script>
+</body>
+</html>
