@@ -6,8 +6,44 @@
   "framework": null,
   "rewrites": [
     {
-      "source": "/(.*)",
-      "destination": "/$1"
+      "source": "/diwali",
+      "destination": "/diwali.html"
+    },
+    {
+      "source": "/christmas",
+      "destination": "/christmas.html"
+    },
+    {
+      "source": "/new-year",
+      "destination": "/new-year.html"
+    },
+    {
+      "source": "/gandhi-jayanti",
+      "destination": "/gandhi-jayanti.html"
+    },
+    {
+      "source": "/eid",
+      "destination": "/eid.html"
+    },
+    {
+      "source": "/onam",
+      "destination": "/onam.html"
+    },
+    {
+      "source": "/ramzan",
+      "destination": "/ramzan.html"
+    },
+    {
+      "source": "/apj-birthday",
+      "destination": "/apj-birthday.html"
+    },
+    {
+      "source": "/apj-death-day",
+      "destination": "/apj-death-day.html"
+    },
+    {
+      "source": "/salah-new-birthday",
+      "destination": "/salah-new-birthday.html"
     }
   ],
   "headers": [
