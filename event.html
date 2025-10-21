@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle">Festival Countdown</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="event-header">
+            <a href="index.html" class="back-btn">← Back to Home</a>
+            <h1 id="eventTitle" class="event-title"></h1>
+            <p id="eventTagline" class="event-tagline"></p>
+        </header>
+
+        <main class="countdown-main">
+            <div class="event-image-container">
+                <img id="eventImage" src="" alt="Festival Image" class="event-image">
+            </div>
+
+            <div class="countdown-container">
+                <div id="countdown" class="countdown">
+                    <div class="time-unit">
+                        <span id="days" class="time-value">0</span>
+                        <span class="time-label">Days</span>
+                    </div>
+                    <div class="time-unit">
+                        <span id="hours" class="time-value">0</span>
+                        <span class="time-label">Hours</span>
+                    </div>
+                    <div class="time-unit">
+                        <span id="minutes" class="time-value">0</span>
+                        <span class="time-label">Minutes</span>
+                    </div>
+                    <div class="time-unit">
+                        <span id="seconds" class="time-value">0</span>
+                        <span class="time-label">Seconds</span>
+                    </div>
+                </div>
+
+                <div id="celebration" class="celebration hidden">
+                    <h2>🎉 It's Time to Celebrate! 🎉</h2>
+                    <p id="celebrationMessage"></p>
+                </div>
+            </div>
+
+            <div class="event-info">
+                <div class="info-card">
+                    <h3>Event Details</h3>
+                    <p><strong>Date:</strong> <span id="eventDate"></span></p>
+                    <p><strong>Status:</strong> <span id="eventStatus"></span></p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Event-specific script
+        document.addEventListener('DOMContentLoaded', function() {
+            const path = window.location.pathname;
+            const eventSlug = path.substring(1); // Remove leading slash
+            
+            // Load events from localStorage
+            const mainEvents = JSON.parse(localStorage.getItem('mainEvents') || '{}');
+            
+            if (eventSlug && mainEvents[eventSlug]) {
+                const event = mainEvents[eventSlug];
+                displayEvent(event);
+                startCountdown(event);
+            } else {
+                // Event not found
+                document.getElementById('eventTitle').textContent = 'Event Not Found';
+                document.getElementById('eventTagline').textContent = 'This festival might not exist yet.';
+                document.querySelector('.countdown-container').style.display = 'none';
+            }
+        });
+
+        function displayEvent(event) {
+            document.getElementById('pageTitle').textContent = event.name + ' Countdown';
+            document.getElementById('eventTitle').textContent = event.emoji + ' ' + event.name;
+            document.getElementById('eventTagline').textContent = event.tagline;
+            document.getElementById('eventDate').textContent = new Date(event.date).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            
+            if (event.image) {
+                document.getElementById('eventImage').src = event.image;
+                document.getElementById('eventImage').style.display = 'block';
+            }
+        }
+
+        function startCountdown(event) {
+            const eventDate = new Date(event.date).getTime();
+            
+            function updateCountdown() {
+                const now = new Date().getTime();
+                const distance = eventDate - now;
+                
+                if (distance < 0) {
+                    // Event has passed
+                    document.getElementById('countdown').classList.add('hidden');
+                    document.getElementById('celebration').classList.remove('hidden');
+                    document.getElementById('celebrationMessage').textContent = event.tagline;
+                    document.getElementById('eventStatus').textContent = '🎉 Celebrating Now!';
+                    return;
+                }
+                
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                
+                document.getElementById('days').textContent = days;
+                document.getElementById('hours').textContent = hours;
+                document.getElementById('minutes').textContent = minutes;
+                document.getElementById('seconds').textContent = seconds;
+                
+                document.getElementById('eventStatus').textContent = '⏰ Countdown Active';
+            }
+            
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+        }
+    </script>
+</body>
+</html>
